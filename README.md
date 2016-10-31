@@ -1,4 +1,4 @@
-# Graphology Utils
+# Graphology Operators
 
 Miscellaneous operators to be used with [`graphology`](https://graphology.github.io).
 
