@@ -1,0 +1,45 @@
+{
+  "name": "graphology-operators",
+  "version": "0.0.1",
+  "description": "Miscellaneous operators for graphology.",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "union.js"
+  ],
+  "scripts": {
+    "lint": "eslint *.js",
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphology/graphology-operators.git"
+  },
+  "keywords": [
+    "graph",
+    "graphology",
+    "operators",
+    "union"
+  ],
+  "author": {
+    "name": "Guillaume Plique",
+    "url": "http://github.com/Yomguithereal"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/graphology/graphology-operators/issues"
+  },
+  "homepage": "https://github.com/graphology/graphology-operators#readme",
+  "devDependencies": {
+    "@yomguithereal/eslint-config": "^3.0.0",
+    "eslint": "^3.5.0",
+    "graphology": "0.1.0",
+    "mocha": "^3.0.2"
+  },
+  "eslintConfig": {
+    "extends": "@yomguithereal/eslint-config"
+  },
+  "dependencies": {
+    "graphology-utils": "^1.1.1"
+  }
+}
