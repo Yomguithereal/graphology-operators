@@ -19,15 +19,7 @@ module.exports = function union(G, H) {
     throw new Error('graphology-operators/union: both graph should be simple or multi.');
 
   var R = G.copy();
+  R.import(H, true);
 
-  // Nodes
-  var nodes = H.exportNodes(),
-      node,
-      i,
-      l;
-
-  for (i = 0, l = nodes.length; i < l; i++) {
-    node = nodes[i];
-    R.mergeNode(node.key, node.attributes);
-  }
+  return R;
 };
