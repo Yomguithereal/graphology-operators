@@ -15,3 +15,16 @@ npm install graphology-operators
 ### Union
 
 Returns the union of the given graphs. Nodes & edges present in both graph will have their attributes merges with precedence given to the second graph.
+
+```js
+import {union} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import union from 'graphology-operators/union';
+
+const R = union(G, H);
+```
+
+*Arguments*
+
+* **G** *Graph*: first graph.
+* **H** *Graph*: second graph.
