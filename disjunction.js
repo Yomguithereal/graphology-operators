@@ -3,7 +3,6 @@
  * ==========================
  */
 var isGraph = require('graphology-utils/is-graph');
-var Graph = require('graphology');
 
 /**
  * Function returning the disjunction of two given graphs.
@@ -33,7 +32,7 @@ module.exports = function disjunction(G, H) {
       directed,
       gFlag,
       hFlag,
-      i, l;
+      i, l, o;
 
   for (i = 0, l = nodes.length; i < l; i++) {
     node = nodes[i];
@@ -41,14 +40,17 @@ module.exports = function disjunction(G, H) {
     hFlag = H.hasNode(node);
 
     if (gFlag && !hFlag)
-      R.addNode(node, G.getAttributes(node))
+      R.addNode(node, G.getAttributes(node));
     else if (!gFlag && hFlag)
-      R.addNode(node, H.getAttributes(node))
+      R.addNode(node, H.getAttributes(node));
   }
 
   for (i = 0, l = edges.length; i < l; i++) {
-    if (i === threshold)
-      [graph, opposite] = [opposite, graph];
+    if (i === threshold) {
+      o = graph;
+      graph = opposite;
+      opposite = o;
+    }
     edge = edges[i];
     directed = graph.directed(edge);
     extremities = graph.extremities(edge);
@@ -59,7 +61,3 @@ module.exports = function disjunction(G, H) {
 
   return R;
 };
-
-
-
-
