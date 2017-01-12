@@ -5,7 +5,9 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "disjunction.js",
     "reverse.js",
+    "symmetric-difference.js",
     "union.js"
   ],
   "scripts": {
@@ -17,9 +19,11 @@
     "url": "git+https://github.com/graphology/graphology-operators.git"
   },
   "keywords": [
+    "disjunction",
     "graph",
     "graphology",
     "operators",
+    "symmetric-difference",
     "union"
   ],
   "author": {

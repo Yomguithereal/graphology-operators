@@ -19,6 +19,7 @@ npm install graphology-operators
 *Binary*
 
 * [union](#union)
+* [disjunction](#disjunction)
 
 ### reverse
 
@@ -46,6 +47,22 @@ import {union} from 'graphology-operators';
 import union from 'graphology-operators/union';
 
 const R = union(G, H);
+```
+
+### disjunction
+
+Returns the disjunction of the given graphs.
+
+```js
+import {disjunction} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import disjunction from 'graphology-operators/disjunction';
+
+// alias
+import {symmetricDifference} from 'graphology-operators';
+import symmetricDifference from 'graphology-operators/symmetric-difference';
+
+const R = disjunction(G, H);
 ```
 
 *Arguments*
