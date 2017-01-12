@@ -51,7 +51,7 @@ const R = union(G, H);
 
 ### intersection
 
-Returns the intersection of the given graphs.
+Returns the intersection of the given graphs. Nodes & edges present in both graph will have their attributes merges with precedence given to the second graph.
 
 ```js
 import {intersection} from 'graphology-operators';

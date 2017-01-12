@@ -3,7 +3,6 @@
  * ==========================
  */
 var isGraph = require('graphology-utils/is-graph');
-var Graph = require('graphology');
 
 /**
  * Function returning the intersection of two given graphs.
@@ -19,7 +18,7 @@ module.exports = function intersection(G, H) {
   if (G.multi !== H.multi)
     throw new Error('graphology-operators/intersection: both graph should be simple or multi.');
 
-  var R = new Graph(null, {multi: G.multi}),
+  var R = G.emptyCopy(),
       nodes = G.nodes(),
       node,
       edges = G.edges(),
@@ -29,9 +28,9 @@ module.exports = function intersection(G, H) {
       extremities,
       i, l;
 
-  for (i = 0, l = nodes.length; i < l; i++) {
+  for (i = 0, l = nodes.length; i < l; i++) {
     node = nodes[i];
-    if (H.hasNode(node)) {
+    if (H.hasNode(node)) {
       R.addNode(node, G.getNodeAttributes(node));
       R.mergeNodeAttributes(node, H.getNodeAttributes(node));
     }
