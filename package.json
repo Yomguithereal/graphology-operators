@@ -6,7 +6,8 @@
   "files": [
     "index.js",
     "reverse.js",
-    "union.js"
+    "union.js",
+    "intersection.js"
   ],
   "scripts": {
     "lint": "eslint *.js",
@@ -20,7 +21,8 @@
     "graph",
     "graphology",
     "operators",
-    "union"
+    "union",
+    "intersection"
   ],
   "author": {
     "name": "Guillaume Plique",

@@ -19,6 +19,7 @@ npm install graphology-operators
 *Binary*
 
 * [union](#union)
+* [intersection](#intersection)
 
 ### reverse
 
@@ -46,6 +47,18 @@ import {union} from 'graphology-operators';
 import union from 'graphology-operators/union';
 
 const R = union(G, H);
+```
+
+### intersection
+
+Returns the intersection of the given graphs.
+
+```js
+import {intersection} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import intersection from 'graphology-operators/intersection';
+
+const R = intersection(G, H);
 ```
 
 *Arguments*
