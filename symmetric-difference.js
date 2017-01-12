@@ -1,23 +1,23 @@
 /**
- * Graphology Disjunction Operator
+ * Graphology Symmetric difference Operator
  * ==========================
  */
 var isGraph = require('graphology-utils/is-graph');
 var Graph = require('graphology');
 
 /**
- * Function returning the disjunction of two given graphs.
+ * Function returning the symmetric difference of two given graphs.
  *
  * @param  {Graph} G - The first graph.
  * @param  {Graph} H - The second graph.
  * @return {Graph}
  */
-module.exports = function disjunction(G, H) {
+module.exports = function symmetricDifference(G, H) {
   if (!isGraph(G) || !isGraph(H))
-    throw new Error('graphology-operators/disjunction: invalid graph.');
+    throw new Error('graphology-operators/symmetric-difference: invalid graph.');
 
   if (G.multi !== H.multi)
-    throw new Error('graphology-operators/disjunction: both graph should be simple or multi.');
+    throw new Error('graphology-operators/symmetric-difference: both graph should be simple or multi.');
 
   var R = G.emptyCopy(),
       nodes = G.nodes().concat(H.nodes()),
