@@ -3,6 +3,7 @@
  * ============================
  */
 var assert = require('assert'),
+    chai = require('chai').assert,
     Graph = require('graphology');
 
 var reverse = require('./reverse.js');
@@ -104,22 +105,31 @@ describe('graphology-operators', function() {
         var G = new Graph(),
             H = new Graph();
 
-        G.addNodesFrom([1, 2, 3, 4, 5]);
-        H.addNodesFrom([2, 3, 5]);
+        G.addNodesFrom([1, 2, 4, 5]);
+        G.addNode(3, {one: 1, node: 'foo'});
+        H.addNodesFrom([2, 5]);
+        H.addNode(3, {two: 2, node: 'bar'});
 
         G.addEdgeWithKey('1->2', '1', '2');
         G.addEdgeWithKey('2->3', '2', '3');
         G.addEdgeWithKey('2->5', '2', '5');
         G.addEdgeWithKey('5->4', '5', '4');
+        G.setEdgeAttribute('2->5', 'one', 1);
+        G.setEdgeAttribute('2->5', 'edge', 'foo');
 
         H.addEdgeWithKey('2->3', '2', '3');
         H.addEdgeWithKey('2->5', '2', '5');
         H.addEdgeWithKey('3->2', '3', '2');
+        G.setEdgeAttribute('2->5', 'two', 2);
+        H.setEdgeAttribute('2->5', 'edge', 'bar');
 
         var R = intersection(G, H);
 
-        assert.deepEqual(R.nodes(), ['2', '3', '5']);
-        assert.deepEqual(R.edges(), ['2->3', '2->5']);
+        chai.sameDeepMembers(R.nodes(), ['2', '3', '5']);
+        assert.deepEqual(R.getNodeAttributes('3'), {one: 1, two: 2, node: 'bar'});
+
+        chai.sameDeepMembers(R.edges(), ['2->3', '2->5']);
+        assert.deepEqual(R.getEdgeAttributes('2->5'), {one: 1, two: 2, edge: 'bar'});
       });
 
     });

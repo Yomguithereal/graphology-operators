@@ -21,6 +21,7 @@ module.exports = function intersection(G, H) {
 
   var R = new Graph(null, {multi: G.multi}),
       nodes = G.nodes(),
+      node,
       edges = G.edges(),
       gDirected,
       gEdge,
@@ -28,9 +29,13 @@ module.exports = function intersection(G, H) {
       extremities,
       i, l;
 
-  for (i = 0, l = nodes.length; i < l; i++)
-    if (H.hasNode(nodes[i]))
-      R.addNode(nodes[i]);
+  for (i = 0, l = nodes.length; i < l; i++) {
+    node = nodes[i];
+    if (H.hasNode(node)) {
+      R.addNode(node, G.getNodeAttributes(node));
+      R.mergeNodeAttributes(node, H.getNodeAttributes(node));
+    }
+  }
 
   for (i = 0, l = edges.length; i < l; i++) {
     gEdge = edges[i];
@@ -38,11 +43,13 @@ module.exports = function intersection(G, H) {
     extremities = G.extremities(gEdge);
 
     hEdge = H.getEdge(extremities[0], extremities[1]);
-    if (hEdge !== undefined && H.directed(gEdge) === gDirected) {
+    if (hEdge !== undefined && H.directed(hEdge) === gDirected) {
       if (gDirected)
-        R.addDirectedEdgeWithKey(gEdge, extremities[0], extremities[1]);
+        R.addDirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
       else
-        R.addUndirectedEdgeWithKey(gEdge, extremities[0], extremities[1]);
+        R.addUndirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
+      R.mergeEdgeAttributes(hEdge, G.getEdgeAttributes(gEdge));
+      R.mergeEdgeAttributes(hEdge, H.getEdgeAttributes(hEdge));
     }
   }
 
