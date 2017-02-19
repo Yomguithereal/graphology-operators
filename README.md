@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/graphology/graphology-operators.svg)](https://travis-ci.org/graphology/graphology-operators)
+
 # Graphology Operators
 
 Miscellaneous operators to be used with [`graphology`](https://graphology.github.io).
