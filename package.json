@@ -5,7 +5,9 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "disjunction.js",
     "reverse.js",
+    "symmetric-difference.js",
     "union.js"
   ],
   "scripts": {
@@ -17,9 +19,11 @@
     "url": "git+https://github.com/graphology/graphology-operators.git"
   },
   "keywords": [
+    "disjunction",
     "graph",
     "graphology",
     "operators",
+    "symmetric-difference",
     "union"
   ],
   "author": {
@@ -34,7 +38,7 @@
   "devDependencies": {
     "@yomguithereal/eslint-config": "^3.0.0",
     "eslint": "^3.5.0",
-    "graphology": "^0.5.4",
+    "graphology": "^0.7.1",
     "mocha": "^3.0.2"
   },
   "eslintConfig": {
