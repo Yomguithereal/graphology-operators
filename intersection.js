@@ -41,15 +41,17 @@ module.exports = function intersection(G, H) {
     gDirected = G.directed(gEdge);
     extremities = G.extremities(gEdge);
 
-    hEdge = H.getEdge(extremities[0], extremities[1]);
-    if (hEdge !== undefined && H.directed(hEdge) === gDirected) {
-      if (gDirected)
-        R.addDirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
-      else
-        R.addUndirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
-      R.mergeEdgeAttributes(hEdge, G.getEdgeAttributes(gEdge));
-      R.mergeEdgeAttributes(hEdge, H.getEdgeAttributes(hEdge));
-    }
+    try {
+      hEdge = H.edge(extremities[0], extremities[1]);
+      if (H.directed(hEdge) === gDirected) {
+        if (gDirected)
+          R.addDirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
+        else
+          R.addUndirectedEdgeWithKey(hEdge, extremities[0], extremities[1]);
+        R.mergeEdgeAttributes(hEdge, G.getEdgeAttributes(gEdge));
+        R.mergeEdgeAttributes(hEdge, H.getEdgeAttributes(hEdge));
+      }
+    } catch (err) { continue; }
   }
 
   return R;

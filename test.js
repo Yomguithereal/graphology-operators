@@ -94,7 +94,7 @@ describe('graphology-operators', function() {
 
       it('should throw if graphs are not both simple or both multi.', function() {
         var simpleGraph = new Graph(),
-            multiGraph = new Graph(null, {multi: true});
+            multiGraph = new Graph({multi: true});
 
         assert.throws(function() {
           intersection(simpleGraph, multiGraph);
