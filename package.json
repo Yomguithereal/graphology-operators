@@ -4,6 +4,7 @@
   "description": "Miscellaneous operators for graphology.",
   "main": "index.js",
   "files": [
+    "*.d.ts",
     "index.js",
     "reverse.js",
     "to-simple.js",
