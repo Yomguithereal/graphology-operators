@@ -6,8 +6,8 @@ var assert = require('assert'),
     Graph = require('graphology');
 
 var reverse = require('./reverse.js');
-
 var union = require('./union.js');
+var toSimple = require('./to-simple.js');
 
 function addNodesFrom(graph, nodes) {
   nodes.forEach(function(node) {
@@ -80,6 +80,27 @@ describe('graphology-operators', function() {
 
         assert.deepEqual(R.nodes(), ['1', '2', '3']);
         assert.deepEqual(R.edges(), ['1->2', '1->3']);
+      });
+    });
+  });
+
+  describe('cast', function() {
+    describe('toSimple', function() {
+      it('should throw when given an invalid graph.', function() {
+        assert.throws(function() {
+          toSimple('test');
+        }, /graphology/);
+      });
+
+      it('should only return a plain copy of a simple graph.', function() {
+        var graph = new Graph();
+
+        graph.mergeEdge(1, 2);
+
+        var copy = toSimple(graph);
+
+        assert.notStrictEqual(graph, copy);
+        assert.deepEqual(graph.nodes(), copy.nodes());
       });
     });
   });
