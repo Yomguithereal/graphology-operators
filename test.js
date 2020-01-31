@@ -9,6 +9,12 @@ var reverse = require('./reverse.js');
 
 var union = require('./union.js');
 
+function addNodesFrom(graph, nodes) {
+  nodes.forEach(function(node) {
+    graph.addNode(node);
+  });
+}
+
 describe('graphology-operators', function() {
 
   describe('unary', function() {
@@ -23,7 +29,7 @@ describe('graphology-operators', function() {
       it('should correctly reverse the given graph.', function() {
         var graph = new Graph();
 
-        graph.addNodesFrom(['John', 'Martha', 'Ada']);
+        addNodesFrom(graph, ['John', 'Martha', 'Ada']);
         graph.addEdgeWithKey('J->M', 'John', 'Martha');
         graph.addUndirectedEdgeWithKey('M<->A', 'Martha', 'Ada');
 
@@ -64,8 +70,8 @@ describe('graphology-operators', function() {
         var G = new Graph(),
             H = new Graph();
 
-        G.addNodesFrom([1, 2]);
-        H.addNodesFrom([1, 3]);
+        addNodesFrom(G, [1, 2]);
+        addNodesFrom(H, [1, 3]);
 
         G.addEdgeWithKey('1->2', '1', '2');
         H.addEdgeWithKey('1->3', '1', '3');

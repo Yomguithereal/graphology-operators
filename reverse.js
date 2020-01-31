@@ -17,10 +17,14 @@ module.exports = function reverse(graph) {
   var reversed = graph.emptyCopy();
 
   // Importing the nodes
-  reversed.importNodes(graph.exportNodes());
+  graph.forEachNode(function(n, a) {
+    reversed.addNode(n, a);
+  });
 
   // Importing undirected edges
-  reversed.importEdges(graph.exportUndirectedEdges());
+  graph.forEachUndirectedEdge(function(e) {
+    reversed.importEdge(graph.exportEdge(e));
+  });
 
   // Reversing directed edges
   var edges = graph.directedEdges(),
