@@ -44,6 +44,7 @@
     "extends": "@yomguithereal/eslint-config"
   },
   "dependencies": {
+    "graphology-types": "^0.15.0",
     "graphology-utils": "^1.1.1"
   }
 }
