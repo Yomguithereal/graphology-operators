@@ -20,6 +20,10 @@ npm install graphology-operators
 
 * [union](#union)
 
+*Cast*
+
+* [toSimple](#tosimple)
+
 ### reverse
 
 Reverse the given graph's directed edges.
@@ -52,3 +56,17 @@ const R = union(G, H);
 
 * **G** *Graph*: first graph.
 * **H** *Graph*: second graph.
+
+### toSimple
+
+Returns the simple version of the given multigraph where we only keep a single edge of each type between nodes.
+
+If a simple graph is passed, the function will only return a copy of it.
+
+```js
+import {toSimple} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import toSimple from 'graphology-operators/to-simple';
+
+const simpleGraph = toSimple(multiGraph);
+```

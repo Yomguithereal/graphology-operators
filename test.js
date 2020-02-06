@@ -102,6 +102,23 @@ describe('graphology-operators', function() {
         assert.notStrictEqual(graph, copy);
         assert.deepEqual(graph.nodes(), copy.nodes());
       });
+
+      it('should return a simple graph from a multi one.', function() {
+        var multiGraph = new Graph({multi: true});
+
+        multiGraph.mergeEdge('one', 'two');
+        multiGraph.addEdge('one', 'two');
+        multiGraph.addEdge('one', 'two');
+
+        assert.strictEqual(multiGraph.order, 2);
+        assert.strictEqual(multiGraph.size, 3);
+
+        var simpleGraph = toSimple(multiGraph);
+
+        assert.strictEqual(simpleGraph.multi, false);
+        assert.deepEqual(simpleGraph.nodes(), ['one', 'two']);
+        assert.strictEqual(simpleGraph.size, 1);
+      });
     });
   });
 });
