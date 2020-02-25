@@ -8,6 +8,7 @@ var assert = require('assert'),
 var reverse = require('./reverse.js');
 var union = require('./union.js');
 var toSimple = require('./to-simple.js');
+var toUndirected = require('./to-undirected.js');
 
 function addNodesFrom(graph, nodes) {
   nodes.forEach(function(node) {
@@ -118,6 +119,25 @@ describe('graphology-operators', function() {
         assert.strictEqual(simpleGraph.multi, false);
         assert.deepEqual(simpleGraph.nodes(), ['one', 'two']);
         assert.strictEqual(simpleGraph.size, 1);
+      });
+    });
+
+    describe('toUndirected', function() {
+      it('should throw when given an invalid graph.', function() {
+        assert.throws(function() {
+          toUndirected('test');
+        }, /graphology/);
+      });
+
+      it('should only return a plain copy of an undirected graph.', function() {
+        var graph = new Graph({type: 'undirected'});
+
+        graph.mergeEdge(1, 2);
+
+        var copy = toUndirected(graph);
+
+        assert.notStrictEqual(graph, copy);
+        assert.deepEqual(graph.nodes(), copy.nodes());
       });
     });
   });
