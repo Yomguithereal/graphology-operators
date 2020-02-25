@@ -18,8 +18,8 @@ module.exports = function toSimple(multiGraph) {
   var graph = multiGraph.emptyCopy({multi: false});
 
   // First we need to add nodes
-  multiGraph.forEachNode(function(node, attr) {
-    graph.addNode(node, attr);
+  multiGraph.forEachNode(function(node) {
+    graph.importNode(multiGraph.exportNode(node));
   });
 
   // Then we need to process edges
