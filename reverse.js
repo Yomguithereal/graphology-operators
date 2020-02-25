@@ -16,11 +16,6 @@ module.exports = function reverse(graph) {
 
   var reversed = graph.emptyCopy();
 
-  // Importing the nodes
-  graph.forEachNode(function(n, a) {
-    reversed.addNode(n, a);
-  });
-
   // Importing undirected edges
   graph.forEachUndirectedEdge(function(e) {
     reversed.importEdge(graph.exportEdge(e));

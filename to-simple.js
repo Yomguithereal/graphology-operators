@@ -17,11 +17,6 @@ module.exports = function toSimple(multiGraph) {
   // Creating a tweaked empty copy
   var graph = multiGraph.emptyCopy({multi: false});
 
-  // First we need to add nodes
-  multiGraph.forEachNode(function(node) {
-    graph.importNode(multiGraph.exportNode(node));
-  });
-
   // Then we need to process edges
   multiGraph.forEachDirectedEdge(function(edge, attr, source, target) {
     if (graph.hasDirectedEdge(source, target))

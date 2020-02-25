@@ -17,11 +17,6 @@ module.exports = function toUndirected(graph) {
 
   var undirectedGraph = graph.emptyCopy({type: 'undirected'});
 
-  // Adding nodes
-  graph.forEachNode(function(node) {
-    undirectedGraph.importNode(graph.exportNode(node));
-  });
-
   // Adding undirected edges
   graph.forEachUndirectedEdge(function(edge) {
     undirectedGraph.importEdge(edge);
