@@ -175,7 +175,7 @@ describe('graphology-operators', function() {
         assert.strictEqual(copy.hasEdge(1, 2), true);
         assert.strictEqual(copy.hasEdge(2, 3), true);
         assert.strictEqual(copy.getEdgeAttribute(1, 2, 'weight'), 5);
-        assert.strictEqual(copy.getEdgeAttribute(3, 2, 'weight'), 3)
+        assert.strictEqual(copy.getEdgeAttribute(3, 2, 'weight'), 3);
       });
     });
   });
