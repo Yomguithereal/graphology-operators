@@ -139,6 +139,44 @@ describe('graphology-operators', function() {
         assert.notStrictEqual(graph, copy);
         assert.deepEqual(graph.nodes(), copy.nodes());
       });
+
+      it('should properly cast graph to undirected version.', function() {
+        var graph = new Graph({type: 'directed'});
+
+        graph.mergeEdge(1, 2);
+        graph.mergeEdge(2, 1);
+        graph.mergeEdge(3, 2);
+
+        var copy = toUndirected(graph);
+
+        assert.notStrictEqual(graph, copy);
+        assert.strictEqual(copy.order, 3);
+        assert.strictEqual(copy.size, 2);
+        assert.strictEqual(copy.hasEdge(1, 2), true);
+        assert.strictEqual(copy.hasEdge(2, 3), true);
+      });
+
+      it('should be possible to pass a `mergeEdge` function.', function() {
+        var graph = new Graph({type: 'directed'});
+
+        graph.mergeEdge(1, 2, {weight: 2});
+        graph.mergeEdge(2, 1, {weight: 3});
+        graph.mergeEdge(3, 2, {weight: 3});
+
+        var copy = toUndirected(graph, function(current, next) {
+          current.weight += next.weight;
+
+          return current;
+        });
+
+        assert.notStrictEqual(graph, copy);
+        assert.strictEqual(copy.order, 3);
+        assert.strictEqual(copy.size, 2);
+        assert.strictEqual(copy.hasEdge(1, 2), true);
+        assert.strictEqual(copy.hasEdge(2, 3), true);
+        assert.strictEqual(copy.getEdgeAttribute(1, 2, 'weight'), 5);
+        assert.strictEqual(copy.getEdgeAttribute(3, 2, 'weight'), 3)
+      });
     });
   });
 });

@@ -6,11 +6,18 @@
  */
 var isGraph = require('graphology-utils/is-graph');
 
-module.exports = function toUndirected(graph) {
+module.exports = function toUndirected(graph, options) {
   if (!isGraph(graph))
     throw new Error('graphology-operators/to-undirected: expecting a valid graphology instance.');
 
-  // options = options || {};
+  if (typeof options === 'function')
+    options = {mergeEdge: options};
+
+  options = options || {};
+
+  var mergeEdge = typeof options.mergeEdge === 'function' ?
+    options.mergeEdge :
+    null;
 
   if (graph.type === 'undirected')
     return graph.copy();
@@ -20,6 +27,27 @@ module.exports = function toUndirected(graph) {
   // Adding undirected edges
   graph.forEachUndirectedEdge(function(edge) {
     undirectedGraph.importEdge(edge);
+  });
+
+  // Merging directed edges
+  graph.forEachDirectedEdge(function(edge, attr, source, target) {
+    var existingEdge = undirectedGraph.edge(source, target);
+
+    if (existingEdge) {
+      // We need to merge
+      if (mergeEdge)
+        undirectedGraph.replaceEdgeAttributes(
+          existingEdge,
+          mergeEdge(undirectedGraph.getEdgeAttributes(existingEdge), attr)
+        );
+
+      return;
+    }
+
+    var serializedEdge = graph.exportEdge(edge);
+    serializedEdge.undirected = true;
+
+    undirectedGraph.importEdge(serializedEdge);
   });
 
   return undirectedGraph;
