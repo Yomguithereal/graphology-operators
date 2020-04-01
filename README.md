@@ -22,6 +22,7 @@ npm install graphology-operators
 
 *Cast*
 
+* [toDirected](#todirected)
 * [toSimple](#tosimple)
 * [toUndirected](#toundirected)
 
@@ -58,6 +59,36 @@ const R = union(G, H);
 * **G** *Graph*: first graph.
 * **H** *Graph*: second graph.
 
+### toDirected
+
+Returns the directed version of the given graph where any undirected edge will be now considered as mutual.
+
+Note that you can pass a function to merge edge attributes in case of mixed edges conflicts. This can be useful to sum weights and so on...
+
+If an already directed graph is passed, the function will only return a copy of it.
+
+```js
+import {toDirected} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import toDirected from 'graphology-operators/to-directed';
+
+const directedGraph = toDirected(graph);
+
+// Using a merging function
+const directedGraph = toDirected(graph, (currentAttr, nextAttr) => {
+  return {
+    ...currentAttr,
+    weight: currentAttr.weight + nextAttr.weight
+  };
+});
+```
+
+*Arguments*
+
+* **graph** *Graph*: target graph.
+* **mergeOrOptions** *?function|object*: either a merging function or an options object:
+  * **mergeEdge** *?function*: merging function to use.
+
 ### toSimple
 
 Returns the simple version of the given multigraph where we only keep a single edge of each type between nodes.
@@ -74,7 +105,7 @@ const simpleGraph = toSimple(multiGraph);
 
 ### toUndirected
 
-Returns the undirected version of the given graph where any directed edge will be considered as now undirected.
+Returns the undirected version of the given graph where any directed edge will be now considered as undirected.
 
 Note that you can pass a function to merge edge attributes in case of mutual edges or mixed edges conflicts. This can be useful to sum weights and so on...
 
