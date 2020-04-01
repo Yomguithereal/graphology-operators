@@ -25,8 +25,13 @@ module.exports = function toUndirected(graph, options) {
   var undirectedGraph = graph.emptyCopy({type: 'undirected'});
 
   // Adding undirected edges
-  graph.forEachUndirectedEdge(function(edge) {
-    undirectedGraph.importEdge(edge);
+  graph.forEachUndirectedEdge(function(edge, attr, source, target) {
+    undirectedGraph.addUndirectedEdgeWithKey(
+      edge,
+      source,
+      target,
+      Object.assign({}, attr)
+    );
   });
 
   // Merging directed edges
@@ -44,10 +49,12 @@ module.exports = function toUndirected(graph, options) {
       return;
     }
 
-    var serializedEdge = graph.exportEdge(edge);
-    serializedEdge.undirected = true;
-
-    undirectedGraph.importEdge(serializedEdge);
+    undirectedGraph.addUndirectedEdgeWithKey(
+      edge,
+      source,
+      target,
+      Object.assign({}, attr)
+    );
   });
 
   return undirectedGraph;
