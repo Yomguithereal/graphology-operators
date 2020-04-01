@@ -26,8 +26,7 @@ module.exports = function toUndirected(graph, options) {
 
   // Adding undirected edges
   graph.forEachUndirectedEdge(function(edge, attr, source, target) {
-    undirectedGraph.addUndirectedEdgeWithKey(
-      edge,
+    undirectedGraph.addUndirectedEdge(
       source,
       target,
       Object.assign({}, attr)
@@ -49,8 +48,7 @@ module.exports = function toUndirected(graph, options) {
       return;
     }
 
-    undirectedGraph.addUndirectedEdgeWithKey(
-      edge,
+    undirectedGraph.addUndirectedEdge(
       source,
       target,
       Object.assign({}, attr)

@@ -7,6 +7,7 @@ var assert = require('assert'),
 
 var reverse = require('./reverse.js');
 var union = require('./union.js');
+var toDirected = require('./to-directed.js');
 var toSimple = require('./to-simple.js');
 var toUndirected = require('./to-undirected.js');
 
@@ -119,6 +120,68 @@ describe('graphology-operators', function() {
         assert.strictEqual(simpleGraph.multi, false);
         assert.deepEqual(simpleGraph.nodes(), ['one', 'two']);
         assert.strictEqual(simpleGraph.size, 1);
+      });
+    });
+
+    describe('toDirected', function() {
+      it('should throw when given an invalid graph.', function() {
+        assert.throws(function() {
+          toDirected('test');
+        }, /graphology/);
+      });
+
+      it('should only return a plain copy of a directed graph.', function() {
+        var graph = new Graph({type: 'directed'});
+
+        graph.mergeEdge(1, 2);
+
+        var copy = toDirected(graph);
+
+        assert.notStrictEqual(graph, copy);
+        assert.deepEqual(graph.nodes(), copy.nodes());
+      });
+
+      it('should properly cast graph to undirected version.', function() {
+        var graph = new Graph({type: 'undirected'});
+
+        graph.mergeEdge(1, 2);
+        graph.mergeEdge(2, 1);
+        graph.mergeEdge(3, 2, {weight: 30});
+
+        var copy = toDirected(graph);
+
+        assert.notStrictEqual(graph, copy);
+        assert.strictEqual(copy.order, 3);
+        assert.strictEqual(copy.size, 4);
+        assert.strictEqual(copy.hasEdge(1, 2), true);
+        assert.strictEqual(copy.hasEdge(2, 1), true);
+        assert.strictEqual(copy.hasEdge(2, 3), true);
+        assert.strictEqual(copy.hasEdge(3, 2), true);
+
+        assert.deepEqual(copy.getEdgeAttributes(3, 2), {weight: 30});
+        assert.deepEqual(copy.getEdgeAttributes(2, 3), {weight: 30});
+      });
+
+      it('should be possible to pass a `mergeEdge` function.', function() {
+        var graph = new Graph();
+
+        graph.mergeDirectedEdge(1, 2, {weight: 2});
+        graph.mergeUndirectedEdge(1, 2, {weight: 4});
+
+        var copy = toDirected(graph, function(current, next) {
+          current.weight += next.weight;
+
+          return current;
+        });
+
+        assert.notStrictEqual(graph, copy);
+        assert.strictEqual(copy.type, 'directed');
+        assert.strictEqual(copy.order, 2);
+        assert.strictEqual(copy.size, 2);
+        assert.strictEqual(copy.hasEdge(1, 2), true);
+        assert.strictEqual(copy.hasEdge(2, 1), true);
+        assert.strictEqual(copy.getEdgeAttribute(1, 2, 'weight'), 6);
+        assert.strictEqual(copy.getEdgeAttribute(2, 1, 'weight'), 4);
       });
     });
 
