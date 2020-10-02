@@ -18,6 +18,7 @@ npm install graphology-operators
 
 *Binary*
 
+* [disjointUnion](#disjointunion)
 * [union](#union)
 
 *Cast*
@@ -41,6 +42,24 @@ const reversedGraph = reverse(graph);
 *Arguments*
 
 * **graph** *Graph*: target graph.
+
+### disjointUnion
+
+Returns the disjoin union of the given graphs. To do so, the function will
+relabel your nodes & edges so both graphs can remain disjoint.
+
+```js
+import {disjointUnion} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import disjointUnion from 'graphology-operators/disjoint-union';
+
+const R = disjointUnion(G, H);
+```
+
+*Arguments*
+
+* **G** *Graph*: first graph.
+* **H** *Graph*: second graph.
 
 ### union
 
