@@ -3,6 +3,8 @@
  * ===================================
  */
 var isGraph = require('graphology-utils/is-graph');
+var copyNode = require('graphology-utils/add-node').copyNode;
+var copyEdge = require('graphology-utils/add-edge').copyEdge;
 
 /**
  * Function returning the disjoint union of two given graphs by giving new keys
@@ -30,7 +32,7 @@ module.exports = function disjointUnion(G, H) {
   G.forEachNode(function(key, attr) {
     labelsG[key] = i;
 
-    R.addNode(i, attr);
+    copyNode(R, i, attr);
 
     i++;
   });
@@ -38,7 +40,7 @@ module.exports = function disjointUnion(G, H) {
   H.forEachNode(function(key, attr) {
     labelsH[key] = i;
 
-    R.addNode(i, attr);
+    copyNode(R, i, attr);
 
     i++;
   });
@@ -46,28 +48,28 @@ module.exports = function disjointUnion(G, H) {
   // Adding edges
   i = 0;
 
-  G.forEachEdge(function(key) {
-    var edge = G.exportEdge(key);
-
-    edge.source = labelsG[edge.source];
-    edge.target = labelsG[edge.target];
-
-    if (edge.key)
-      edge.key = i++;
-
-    R.importEdge(edge);
+  G.forEachEdge(function(key, attr, source, target, _s, _t, undirected, generatedKey) {
+    copyEdge(
+      R,
+      undirected,
+      generatedKey ? null : i++,
+      labelsG[source],
+      labelsG[target],
+      target,
+      attr
+    );
   });
 
-  H.forEachEdge(function(key) {
-    var edge = H.exportEdge(key);
-
-    edge.source = labelsH[edge.source];
-    edge.target = labelsH[edge.target];
-
-    if (edge.key)
-      edge.key = i++;
-
-    R.importEdge(edge);
+  H.forEachEdge(function(key, attr, source, target, _s, _t, undirected, generatedKey) {
+    copyEdge(
+      R,
+      undirected,
+      generatedKey ? null : i++,
+      labelsH[source],
+      labelsH[target],
+      target,
+      attr
+    );
   });
 
   return R;
