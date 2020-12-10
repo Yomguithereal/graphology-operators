@@ -3,6 +3,7 @@
  * ===========================
  */
 var isGraph = require('graphology-utils/is-graph');
+var copyEdge = require('graphology-utils/add-edge').copyEdge;
 
 /**
  * Function reversing the given graph.
@@ -17,25 +18,28 @@ module.exports = function reverse(graph) {
   var reversed = graph.emptyCopy();
 
   // Importing undirected edges
-  graph.forEachUndirectedEdge(function(e) {
-    reversed.importEdge(graph.exportEdge(e));
+  graph.forEachUndirectedEdge(function(key, attr, source, target, _sa, _st, undirected, generatedKey) {
+    copyEdge(
+      reversed,
+      true,
+      generatedKey ? null : key,
+      source,
+      target,
+      attr
+    );
   });
 
   // Reversing directed edges
-  var edges = graph.directedEdges(),
-      edge,
+  graph.forEachDirectedEdge(function(key, attr, source, target, _sa, _st, undirected, generatedKey) {
+    copyEdge(
+      reversed,
+      false,
+      generatedKey ? null : key,
+      target,
       source,
-      i,
-      l;
-
-  for (i = 0, l = edges.length; i < l; i++) {
-    edge = graph.exportEdge(edges[i]);
-    source = edge.source;
-    edge.source = edge.target;
-    edge.target = source;
-
-    reversed.importEdge(edge);
-  }
+      attr
+    );
+  });
 
   return reversed;
 };
