@@ -14,6 +14,7 @@ npm install graphology-operators
 
 *Unary*
 
+* [subgraph](#subgraph)
 * [reverse](#reverse)
 
 *Binary*
@@ -26,6 +27,32 @@ npm install graphology-operators
 * [toDirected](#todirected)
 * [toSimple](#tosimple)
 * [toUndirected](#toundirected)
+
+### subgraph
+
+Return a graph's subgraph containing the given nodes and their relevant edges.
+
+```js
+import {subgraph} from 'graphology-operators';
+// Alternatively, to load only the relevant code:
+import subgraph from 'graphology-operators/subgraph';
+
+// From an array of nodes
+const sub = subgraph(graph, ['John', 'Mary', 'Sue']);
+
+// From a set of nodes
+const sub = subgraph(graph, new Set(['John', 'Mary', 'Sue']));
+
+// From a filtering function
+const sub = subgraph(graph, function(key, attr) {
+  return key.startsWith('J') || attr.color === 'red';
+});
+```
+
+*Arguments*
+
+* **graph** *Graph*: target graph.
+* **nodes** *array|Set|function*: either an array of nodes to keep, or a set of nodes to keep or a function taking a node's key and its attributes and tasked to filter the nodes to keep.
 
 ### reverse
 

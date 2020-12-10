@@ -4,9 +4,11 @@
  */
 var assert = require('assert'),
     Graph = require('graphology'),
-    createTupleComparator = require('mnemonist/utils/comparators').createTupleComparator;
+    createTupleComparator = require('mnemonist/utils/comparators').createTupleComparator,
+    mergeClique = require('graphology-utils/merge-clique');
 
 var reverse = require('./reverse.js');
+var subgraph = require('./subgraph');
 var union = require('./union.js');
 var disjointUnion = require('./disjoint-union.js');
 var toDirected = require('./to-directed.js');
@@ -51,6 +53,89 @@ describe('graphology-operators', function() {
         assert.strictEqual(graph.size, reversed.size);
 
         assert.strictEqual(reversed.hasDirectedEdge('Martha', 'John'), true);
+      });
+    });
+
+    describe('subgraph', function() {
+      it('should throw if given arguments are invalid.', function() {
+        assert.throws(function() {
+          subgraph(null);
+        }, /valid/);
+
+        assert.throws(function() {
+          subgraph(new Graph(), null);
+        }, /valid/);
+      });
+
+      it('should throw if given nodes are not found in the graph.', function() {
+        assert.throws(function() {
+          subgraph(new Graph(), ['test']);
+        }, /node/);
+      });
+
+      it('should return an null graph if no node is given.', function() {
+        var graph = new Graph();
+        graph.mergeEdge(1, 2);
+
+        function returnFalse() {
+          return false;
+        }
+
+        assert.strictEqual(subgraph(graph, []).size, 0);
+        assert.strictEqual(subgraph(graph, new Set()).size, 0);
+        assert.strictEqual(subgraph(graph, returnFalse).size, 0);
+      });
+
+      it('should be possible to get a subgraph from an array of nodes.', function() {
+        var graph = new Graph();
+        mergeClique(graph, [0, 1, 2, 3]);
+
+        var sub = subgraph(graph, [0, 1]);
+
+        assert.strictEqual(sub.hasNode(0), true);
+        assert.strictEqual(sub.hasNode(1), true);
+        assert.strictEqual(sub.hasNode(2), false);
+        assert.strictEqual(sub.hasNode(3), false);
+        assert.strictEqual(sub.hasEdge(0, 1), true);
+        assert.strictEqual(sub.hasEdge(1, 2), false);
+        assert.strictEqual(sub.size, 1);
+      });
+
+      it('should be possible to get a subgraph from a set of nodes.', function() {
+        var graph = new Graph();
+        mergeClique(graph, [0, 1, 2, 3]);
+
+        var sub = subgraph(graph, new Set([0, 1]));
+
+        assert.strictEqual(sub.hasNode(0), true);
+        assert.strictEqual(sub.hasNode(1), true);
+        assert.strictEqual(sub.hasNode(2), false);
+        assert.strictEqual(sub.hasNode(3), false);
+        assert.strictEqual(sub.hasEdge(0, 1), true);
+        assert.strictEqual(sub.hasEdge(1, 2), false);
+        assert.strictEqual(sub.size, 1);
+      });
+
+      it('should be possible to get a subgraph from a filtering function', function() {
+        var graph = new Graph();
+        mergeClique(graph, [0, 1, 2, 3]);
+
+        var sub = subgraph(graph, function(key, attr) {
+          assert.deepStrictEqual(graph.getNodeAttributes(key), attr);
+
+          if (key === '0' || key === '1')
+            return true;
+
+          return false;
+        });
+
+        assert.strictEqual(sub.hasNode(0), true);
+        assert.strictEqual(sub.hasNode(1), true);
+        assert.strictEqual(sub.hasNode(2), false);
+        assert.strictEqual(sub.hasNode(3), false);
+        assert.strictEqual(sub.hasEdge(0, 1), true);
+        assert.strictEqual(sub.hasEdge(1, 2), false);
+        assert.strictEqual(sub.size, 1);
       });
     });
   });

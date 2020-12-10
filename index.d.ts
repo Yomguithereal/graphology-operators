@@ -1,5 +1,6 @@
-export {default as reverse} from './reverse.js';
-export {default as toDirected} from './to-directed.js';
-export {default as toSimple} from './to-simple.js';
-export {default as toUndirected} from './to-undirected.js';
-export {default as union} from './union.js';
+export {default as reverse} from './reverse';
+export {default as subgraph} from './subgraph';
+export {default as toDirected} from './to-directed';
+export {default as toSimple} from './to-simple';
+export {default as toUndirected} from './to-undirected';
+export {default as union} from './union';
